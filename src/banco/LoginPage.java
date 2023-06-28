@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class LoginPage {
-    private static final String ARQUIVO_LOGIN = "logins.txt";
+    private static final String arquivoLogin = "logins.txt";
 
     private int idArmazenado;
     private String loginArmazenado;
@@ -64,30 +64,28 @@ public class LoginPage {
     public void exibirPaginaLogin() {
         String login = JOptionPane.showInputDialog("Login:");
         String senha = JOptionPane.showInputDialog("Senha:");
+        AuthenticationPage auth = new AuthenticationPage();
 
-        if (autenticarUsuario(login, senha)) {
+        if (auth.autenticarUsuario(login, senha)) {
             JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_LOGIN))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoLogin))) {
                 String linha;
                 while ((linha = reader.readLine()) != null) {
                     String[] campos = linha.split(";");
                     
                     String loginArmazenado = campos[1];
                     String senhaArmazenada = campos[2];
+                    if (login.equals(loginArmazenado) && senha.equals(senhaArmazenada)) {
+                        this.setIdArmazenado(Integer.parseInt(campos[0]));
+                        this.setLoginArmazenado(campos[1]);
+                        this.setSenhaArmazenada(campos[2]);
+                        this.setCpfArmazenado(campos[3]);
+                        this.setIdadeArmazenada(Integer.parseInt(campos[4]));
+                        this.setSaldoArmazenado(Double.parseDouble(campos[5]));
+                    }
                     
-    
-    
-
-                    setIdArmazenado(Integer.parseInt(campos[0]));
-                    setLoginArmazenado(campos[1]);
-                    setSenhaArmazenada(campos[2]);
-                    setCpfArmazenado(campos[3]);
-                    setIdadeArmazenada(Integer.parseInt(campos[4]));
-                    setSaldoArmazenado(Double.parseDouble(campos[5]));
-                    
-                    
-                    
+                
                 }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " + e.getMessage());
@@ -100,25 +98,7 @@ public class LoginPage {
             JOptionPane.showMessageDialog(null, "Login ou senha inválidos!");
         }
     }
+    
 
-    public boolean autenticarUsuario(String login, String senha) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_LOGIN))) {
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                String[] campos = linha.split(";");
-                String loginArmazenado = campos[1];
-                
-                String senhaArmazenada = campos[2];
-                
-
-                if (login.equals(loginArmazenado) && senha.equals(senhaArmazenada)) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " + e.getMessage());
-        }
-
-        return false;
-    }
+    
 }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 
-public class Principal extends BancoService{
+public class Principal{
     static boolean validaWhile;
 
     public static void main(String[] args) {
@@ -12,14 +12,13 @@ public class Principal extends BancoService{
         
         while(!validaWhile){
             try{
-                System.out.println("\n\n==============Seja bem vindo ao Banco-FAFAS==============\n"+
+                String opcao = JOptionPane.showInputDialog("\n\n==============Seja bem vindo ao Banco-FAFAS==============\n"+
                 "1. Cadastro\n"+
                 "2. Login\n"+
-                "3. Mostrar bancos e ids \n"+
-                "4. Sair\n"+
+                "3. Sair\n"+
                 "\n");
-                int opcao = read.nextInt();
-                switch(opcao){
+                
+                switch(Integer.parseInt(opcao)){
                     case 1:
                         System.out.println("Você escolheu a opção CADASTRO");
                         
@@ -27,20 +26,15 @@ public class Principal extends BancoService{
                         aux1.cadastro(aux1);
                         break;
                     case 2:
-                        System.out.println("Você escolheu a opção LOGIN");
                         LoginPage loginPage = new LoginPage();
                         loginPage.exibirPaginaLogin();
                         SessionPage sessao = new SessionPage(loginPage.getIdArmazenado(), loginPage.getLoginArmazenado(), loginPage.getSenhaArmazenada(), loginPage.getCpfArmazenado(), loginPage.getIdadeArmazenada(), loginPage.getSaldoArmazenado());
-                        sessao.run(); 
+                        sessao.start();
+                        
                         break;
                     case 3:
-                        System.out.println("Você escolheu a opção mostrar bancos!");
-                        BancoService.mostrarBancos();
-                        break;
-                    case 4:
-                        System.out.println("Você escolheu sair!");
-                                   
-                        validaWhile = true;
+                        validaWhile = true;                     
+                        JOptionPane.showMessageDialog(null, "Obrigado por ter utilizado nosso banco!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         break;
                     default:
                         System.out.println("Não foi possível executar essa escolha");
