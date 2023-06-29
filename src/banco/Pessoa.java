@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.File;
 
 public class Pessoa{
     private String nome;
@@ -20,8 +21,11 @@ public class Pessoa{
     boolean validaCpf;
     boolean validaSenha;
 
-    private static final String arquivoLogin = "logins.txt";
     
+    
+    private static final String arquivoLogin = "Banco/src/logins/logins.txt";
+    
+    ErrorPage msg = new ErrorPage();
 
     
     
@@ -63,73 +67,81 @@ public class Pessoa{
     
 
     public void cadastro(Banco b){
-        System.out.println("2");
 
         while(!validaNome){
             try{
-                System.out.println("3");
-                String name = JOptionPane.showInputDialog("Digite seu NOME: ");            
-                System.out.println("4");
+                String name = msg.pergunta("Digite seu NOME: ");//JOptionPane.showInputDialog("Digite seu NOME: ");            
                 if (name != null && !name.isEmpty()) {
                     this.nome = name;
                     validaNome = true;
                 } else {
-                    System.out.println("Nome inválido. Tente novamente.");
+                    msg.erro("Nome inválido. Tente novamente.");
+                    //System.out.println("Nome inválido. Tente novamente.");
                 }
             }catch(Exception e){
-                System.out.println("ERRO NO VALIDA NOME: " + e.getMessage());
+                msg.erro("ERRO NO VALIDA NOME: ", e.getMessage());
+                //System.out.println("ERRO NO VALIDA NOME: " + e.getMessage());
             }   
         }
         while(!validaCpf){
             try{
-                String cpf = JOptionPane.showInputDialog("Digite seu CPF:");
+                String cpf = msg.pergunta("Digite seu CPF:");//JOptionPane.showInputDialog("Digite seu CPF:");
                 if (cpf != null && !cpf.isEmpty() && cpf.length() == 11) {
                     this.cpf = cpf;
                     validaCpf = true;
                 } else {
-                    System.out.println("CPF inválido. Tente novamente.");
+                    msg.erro("CPF inválido. Tente novamente.");
+                    //System.out.println("CPF inválido. Tente novamente.");
                 }
 
             }catch(Exception e){
-                System.out.println("ERRO NO VALIDA CPF: " + e.getMessage());
-            }   
+                msg.erro("ERRO NO VALIDA CPF: ", e.getMessage());
+                //System.out.println("ERRO NO VALIDA CPF: " + e.getMessage());
+            }catch(Error e){
+                msg.erro("ERRO NO VALIDA CPF: ", e.getMessage());
+            }  
         }
         while(!validaIdade){
             try{
-                String idadeStr = JOptionPane.showInputDialog("Digite sua idade:");
+                String idadeStr = msg.pergunta("Digite sua idade:");//JOptionPane.showInputDialog("Digite sua idade:");
                 if (idadeStr != null && !idadeStr.isEmpty()) {
                     int idade = Integer.parseInt(idadeStr);
                     if (idade >= 0) {
                         this.idade = idade;
                         validaIdade = true;
                     } else {
-                        System.out.println("Idade inválida. Tente novamente.");
+                        msg.erro("Idade inválida. Tente novamente.");
+                        //System.out.println("Idade inválida. Tente novamente.");
                     }
                 } else {
-                    System.out.println("Idade inválida. Tente novamente.");
+                    msg.erro("Não é permitido campo vazio.");
+                    //System.out.println("Idade inválida. Tente novamente.");
                 }
 
             }catch(NumberFormatException e){
-                System.out.println("ERRO NO VALIDA IDADE: "+ e.getMessage());
+                msg.erro("ERRO NO VALIDA IDADE: ",e.getMessage());
+                //System.out.println("ERRO NO VALIDA IDADE: "+ e.getMessage());
             }   
         }
         while(!validaSenha){
             try{
-                String senha = JOptionPane.showInputDialog("Digite sua SENHA:");
+                String senha = msg.pergunta("Digite sua SENHA:");//JOptionPane.showInputDialog("Digite sua SENHA:");
                 if (senha != null && senha.length() >= 8) {
                     this.senha = senha;
                     validaSenha = true;
                 } else {
-                    System.out.println("Senha inválida. A senha deve ter pelo menos 8 caracteres.");
+                    msg.erro("Senha inválida. A senha deve ter pelo menos 8 caracteres.");
+                    //System.out.println("Senha inválida. A senha deve ter pelo menos 8 caracteres.");
                 }
 
             }catch(Exception e){
-                System.out.println("ERRO NO VALIDA SENHA: "+ e.getMessage());
+                msg.erro("ERRO NO VALIDA SENHA: ", e.getMessage());
+                //System.out.println("ERRO NO VALIDA SENHA: "+ e.getMessage());
             }   
         }
         escrevaNoArquivo(arquivoLogin, b.getId()+";"+this.nome+";"+this.senha+";"+this.cpf+";"+this.idade+";"+this.saldo+";"+"\n");
-        BancoService bancoService = new BancoService();
-        bancoService.adicionarConta(b);
+        // BancoService bancoService = new BancoService();
+        // bancoService.adicionarConta(b);
         
         
     }
@@ -143,7 +155,9 @@ public class Pessoa{
 
             bufferedWriter.close();
 
+            
             System.out.println("Dados escritos com sucesso no arquivo.");
+
         } catch (IOException e) {
             System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
         }

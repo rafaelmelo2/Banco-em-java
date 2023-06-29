@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class LoginPage {
-    private static final String arquivoLogin = "logins.txt";
+    private static final String arquivoLogin = "Banco/src/logins/logins.txt";
 
     private int idArmazenado;
     private String loginArmazenado;
@@ -14,7 +14,7 @@ public class LoginPage {
     private String cpfArmazenado;
     private int idadeArmazenada;
     private double saldoArmazenado;
-
+    ErrorPage msg = new ErrorPage();
 
     public int getIdArmazenado() {
         return idArmazenado;
@@ -61,13 +61,15 @@ public class LoginPage {
         this.saldoArmazenado = saldoArmazenado;
     }
 
-    public void exibirPaginaLogin() {
-        String login = JOptionPane.showInputDialog("Login:");
-        String senha = JOptionPane.showInputDialog("Senha:");
+    public boolean exibirPaginaLogin() {
+        String login = msg.pergunta("Login:");
+        String senha = msg.pergunta("Senha:");
         AuthenticationPage auth = new AuthenticationPage();
 
         if (auth.autenticarUsuario(login, senha)) {
-            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+            
+            msg.informar("Login realizado com sucesso!");
+            //JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
 
             try (BufferedReader reader = new BufferedReader(new FileReader(arquivoLogin))) {
                 String linha;
@@ -88,14 +90,18 @@ public class LoginPage {
                 
                 }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " + e.getMessage());
+                msg.erro("Erro ao ler o arquivo de login: ", e.getMessage());
+                //JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " + e.getMessage());
             }catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Erro ao converter dados: " + e.getMessage());
+                msg.erro("Erro ao converter dados: ", e.getMessage());
+                //JOptionPane.showMessageDialog(null, "Erro ao converter dados: " + e.getMessage());
             }
             
-
+            return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Login ou senha inválidos!");
+            msg.informar("Login ou senha inválidos!");
+            //JOptionPane.showMessageDialog(null, "Login ou senha inválidos!", "Alerta" , JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
     

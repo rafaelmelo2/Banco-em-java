@@ -3,11 +3,13 @@ package banco;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JOptionPane;
+
 
 
 public class AuthenticationPage {
-    private static final String arquivoLogin = "logins.txt";
+    private static final String arquivoLogin = "Banco/src/logins/logins.txt";
+    ErrorPage msg = new ErrorPage();
+    
     public boolean autenticarUsuario(String login, String senha) {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoLogin))) {
             String linha;
@@ -23,7 +25,7 @@ public class AuthenticationPage {
                 }
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " + e.getMessage());
+            msg.erro("Erro ao ler o arquivo de login: " + e.getMessage());
         }
 
         return false;
