@@ -1,11 +1,5 @@
 package banco;
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Locale.Category;
-
-import javax.swing.JOptionPane;
-
 public class SessionPage extends Thread {
     private Banco p1;
     private boolean validaWhile;
@@ -30,7 +24,6 @@ public class SessionPage extends Thread {
     }
 
     public void exibeSessionPage() {
-        Scanner read = new Scanner(System.in);
 
         while (!validaWhile) {
             String opcao = msg.pergunta("\n\n==============Seja bem vindo(a) " + p1.getNome().toUpperCase()
@@ -88,18 +81,16 @@ public class SessionPage extends Thread {
                     msg.erro("Opção inválida, digite novamente!");
                     // JOptionPane.showMessageDialog(null, "Opção inválida" );
             }
-            // if (opcao == null) {
-            // // JOptionPane foi fechado pelo botão "X" ou "Cancelar"
-            // interrupt();
-            // System.out.println("JOptionPane foi fechado pelo botão \"X\" ou
-            // \"Cancelar\"");
-            // } else {
-            // // JOptionPane foi fechado pelo botão "OK" ou digitou algo
-            // interrupt();
-            // System.out.println("Opção selecionada: " + opcao);
-            // }
+            if (opcao == null) {
+                // JOptionPane foi fechado pelo botão "X" ou "Cancelar"
+                interrupt();
+                System.out.println("JOptionPane foi fechado pelo botão \"X\" ou\"Cancelar\"");
+            } else {
+                // JOptionPane foi fechado pelo botão "OK" ou digitou algo
+                interrupt();
+                System.out.println("Opção selecionada: " + opcao);
+            }
         }
-        read.close();
     }
 
     public void run() {

@@ -85,13 +85,9 @@ public class Banco extends Pessoa {
                         writer.newLine();
                     }
                     msg.informar("Depósito executado com sucesso");
-                    // JOptionPane.showMessageDialog(null, "Depósito executado com sucesso",
-                    // "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (IOException e) {
                 msg.erro("Erro ao ler o arquivo de login: ", e.getMessage());
-                // JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " +
-                // e.getMessage());
             }
             return true;
         } else {
@@ -119,18 +115,13 @@ public class Banco extends Pessoa {
                             campos[5] = String.valueOf(tempSaldoDestinatario);
                             linha = String.join(";", campos);
                             msg.informar("Transferência executada com sucesso");
-                            // JOptionPane.showMessageDialog(null, "Transferência executada com sucesso",
-                            // "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                            // setSaldoArmazenado(tempSaldoDestinatario);
+
                         } else {
                             msg.informar("Você não tem saldo suficiente");
-                            // JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente", "Alerta"
-                            // , JOptionPane.ERROR_MESSAGE);
                         }
                     }
 
                     if (idTemp == idDestinatario) {
-                        // int tempDestinatario = Integer.parseInt(campos[0]);
                         Double tempSaldoDestinatario = Double.parseDouble(campos[5]) + valor;
                         campos[5] = String.valueOf(tempSaldoDestinatario);
                         linha = String.join(";", campos);
@@ -146,8 +137,6 @@ public class Banco extends Pessoa {
                 }
             } catch (IOException e) {
                 msg.erro("Erro ao ler o arquivo de login: ", e.getMessage());
-                // JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo de login: " +
-                // e.getMessage());
             }
             return true;
         } else {
